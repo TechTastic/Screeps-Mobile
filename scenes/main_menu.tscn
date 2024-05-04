@@ -1,6 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://bvvlpixdknwrv"]
 
+[ext_resource type="PackedScene" uid="uid://bk7vxhkbebhl4" path="res://scenes/server_section.tscn" id="1_1oi7n"]
 [ext_resource type="PackedScene" uid="uid://cv3u6287lia20" path="res://scenes/server_button.tscn" id="1_i1abj"]
+[ext_resource type="Script" path="res://scripts/CommunityServerSection.gd" id="2_6q5fv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ffc8"]
 bg_color = Color(0.103993, 0.154545, 0.288691, 1)
@@ -8,13 +10,9 @@ shadow_size = 10
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ujrfi"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8txka"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7sjla"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ls0x7"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gkkag"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7sjla"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -84,100 +82,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="OfficialServerSection" type="Panel" parent="ServerSection/ServerSections"]
+[node name="ServerSection" parent="ServerSection/ServerSections" instance=ExtResource("1_1oi7n")]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_8txka")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ServerSection/ServerSections/OfficialServerSection"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SectionTitle" type="Label" parent="ServerSection/ServerSections/OfficialServerSection/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 20
-text = "Official Servers"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ServerScroll" type="ScrollContainer" parent="ServerSection/ServerSections/OfficialServerSection/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="ServerList" type="VBoxContainer" parent="ServerSection/ServerSections/OfficialServerSection/VBoxContainer/ServerScroll"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 15
-
-[node name="Padding" type="Panel" parent="ServerSection/ServerSections/OfficialServerSection/VBoxContainer/ServerScroll/ServerList"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ls0x7")
-
-[node name="ScreepsWorldButton" parent="ServerSection/ServerSections/OfficialServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
-layout_mode = 2
-server_name = "Screeps: World"
-host = "screeps.com"
-
-[node name="ScreepsSeasonButton" parent="ServerSection/ServerSections/OfficialServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
-layout_mode = 2
-server_name = "Screeps Seasonal"
-host = "screeps.com"
+section_title = "Official Servers"
+server_list = [{
+"host": "screeps.com",
+"name": "Screeps: World"
+}, {
+"host": "screeps.com/season",
+"name": "Screeps Seasonal"
+}]
 
 [node name="VSeparator" type="VSeparator" parent="ServerSection/ServerSections"]
 layout_mode = 2
 
-[node name="CommunityServerSection" type="Panel" parent="ServerSection/ServerSections"]
+[node name="CommunityServerSection" parent="ServerSection/ServerSections" instance=ExtResource("1_1oi7n")]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_gkkag")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ServerSection/ServerSections/CommunityServerSection"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SectionTitle" type="Label" parent="ServerSection/ServerSections/CommunityServerSection/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 20
-text = "Community Servers"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ServerScroll" type="ScrollContainer" parent="ServerSection/ServerSections/CommunityServerSection/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="ServerList" type="VBoxContainer" parent="ServerSection/ServerSections/CommunityServerSection/VBoxContainer/ServerScroll"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 15
-
-[node name="Padding" type="Panel" parent="ServerSection/ServerSections/CommunityServerSection/VBoxContainer/ServerScroll/ServerList"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_ls0x7")
-
-[node name="ScreepsWorldButton" parent="ServerSection/ServerSections/CommunityServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
-layout_mode = 2
-server_name = "Screeps: World"
-host = "screeps.com"
-
-[node name="ScreepsSeasonButton" parent="ServerSection/ServerSections/CommunityServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
-layout_mode = 2
-server_name = "Screeps Seasonal"
-host = "screeps.com"
+script = ExtResource("2_6q5fv")
+section_title = "Community Servers"
 
 [node name="VSeparator2" type="VSeparator" parent="ServerSection/ServerSections"]
 layout_mode = 2
@@ -220,10 +144,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ls0x7")
 
 [node name="ScreepsWorldButton" parent="ServerSection/ServerSections/PrivateServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
 layout_mode = 2
-server_name = "Screeps: World"
-host = "screeps.com"
 
 [node name="ScreepsSeasonButton" parent="ServerSection/ServerSections/PrivateServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
 layout_mode = 2
-server_name = "Screeps Seasonal"
-host = "screeps.com"

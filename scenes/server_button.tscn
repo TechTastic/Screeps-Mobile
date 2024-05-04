@@ -76,3 +76,5 @@ grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_fotkp")
 value = 100.0
 show_percentage = false
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
