@@ -85,13 +85,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 size_flags_horizontal = 3
 section_title = "Official Servers"
-server_list = [{
-"host": "screeps.com",
-"name": "Screeps: World"
-}, {
-"host": "screeps.com/season",
-"name": "Screeps Seasonal"
-}]
+is_official = true
 
 [node name="VSeparator" type="VSeparator" parent="ServerSection/ServerSections"]
 layout_mode = 2

@@ -4,10 +4,7 @@ class_name ServerButton
 @export var server: ScreepsServer = ScreepsServer.new()
 @export var connection_style: StyleBoxFlat = StyleBoxFlat.new()
 
-signal server_updated(json: Dictionary)
-
 func _ready():
-	server_updated.connect(_on_server_updated)
 	set_label_normal()
 	
 	$ServerTouchButton.shape.size = self.size
@@ -16,7 +13,9 @@ func _ready():
 	
 	$ConnectionIndicator.add_theme_stylebox_override("fill", set_style_on_ready())
 	
-	await ScreepsHTTP.get_server_version_data(server, server_updated)
+	server.server_info_updated.connect(_on_server_info_updated)
+	
+	server.request_server_info()
 
 func set_style_on_ready():
 	connection_style.corner_radius_bottom_right = 10
@@ -42,21 +41,17 @@ func _on_pressed():
 	# Is auth'd? If not, auth
 	# Render Game
 	print("Connecting to " + server.server_name)
-	pass # Replace with function body.
 
 func get_label_format():
 	return "{0}\n{1}"
 
 func set_label_normal():
-	var users = server.users
-	if (users == -1):
-		users = 0
 	text = get_label_format().format([
 		server.server_name,
-		str(users) + " users"
+		str(server.users) + " users"
 	])
 	
-	if (server.has_likes):
+	if (server.like_count != -1):
 		text += " - " + str(server.like_count) + " likes"
 
 func set_label_hover():
@@ -65,27 +60,20 @@ func set_label_hover():
 		server.host + (
 			func():
 			var value = ""
-			if server.port != -1: 
-				value += ":" + str(server.port)
-			if server.version != "":
-				value += server.version
+			if server.port != "": 
+				value += ":" + server.port
 			return value
 			).call()
 	])
 
 func _process(_delta):
-	if (server.users == -1):
-		print(server.server_name)
-		print(server.users)
-		print(server.secure)
-		ScreepsHTTP.get_server_version_data(server, server_updated)
-	
 	if (is_hovered()):
 		set_label_hover()
 	else:
 		set_label_normal()
 	
-	update_style(server.active)
+	update_style(server.status == "active")
 
-func _on_server_updated(json: Dictionary):
-	server.users = json.users
+func _on_server_info_updated(server: ScreepsServer):
+	self.server = server
+	self.queue_redraw()
