@@ -16,6 +16,7 @@ func send_request(url: String, test: Callable = func(): pass, headers: PackedStr
 	
 	# Remove HTTP node
 	remove_child(http)
+	http.queue_free()
 
 func get_http_url(server: ScreepsServer):
 	var url = ""
@@ -59,8 +60,10 @@ func get_community_server_list(callback: Signal):
 	# Test response and respond accordingly
 	var test = func(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray): 
 		var json = JSON.parse_string(body.get_string_from_utf8())
+		print("Community Server List")
 		# If response is 200 and JSON readable, set data
 		if response_code == 200 and json != null and !json.has("error"):
+			print("Got Server!")
 			var servers = json.servers
 			var server_list = []
 			for index in servers.size():
