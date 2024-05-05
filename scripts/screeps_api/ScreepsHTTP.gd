@@ -1,22 +1,34 @@
 extends Node
 
-func send_request(url: String, test: Callable = func(): pass, headers: PackedStringArray = PackedStringArray(), method: HTTPClient.Method = HTTPClient.METHOD_GET, request: String = ""):
-	# Create and add new HTTPRequest node
-	var http = HTTPRequest.new()
+var http = HTTPRequest.new()
+var request_queue = []
+var request_queued = false
+
+func _ready():
 	add_child(http)
-	
-	# Call test upon request completed
-	http.request_completed.connect(test)
-	
-	# Send request
-	http.request(url, headers, method, request)
-	
-	# Pause thread and await request handling completion
-	await http.request_completed
-	
-	# Remove HTTP node
-	remove_child(http)
-	http.queue_free()
+	http.use_threads = true
+
+func _process(_delta):
+	if request_queue.size() > 0 and !request_queued:
+		request_queued = true
+		var request = request_queue.pop_front()
+		http.request(request.url, request.headers, request.method, request.body)
+		
+		var failure = func(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
+			if result != 0 or response_code < 200 or response_code >= 300:
+				request_queue.push_back(request)
+			else:
+				request.test.call(result, response_code, headers, body)
+		
+		http.request_completed.connect(failure)
+		await http.request_completed
+		http.request_completed.disconnect(failure)
+		request_queued = false
+
+func add_request_to_queue(url: String, test: Callable = func(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray): pass, headers: PackedStringArray = PackedStringArray(), method: HTTPClient.Method = HTTPClient.METHOD_GET, body: String = ""):
+	var request = { "url": url, "test": test, "headers": headers, "method": method, "body": body }
+	if (request_queue.count(request) == 0):
+		request_queue.append(request)
 
 func get_http_url(server: ScreepsServer):
 	var url = ""
@@ -43,7 +55,7 @@ func get_server_version_data(server: ScreepsServer, callback: Signal):
 	var test = func(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 		var json = JSON.parse_string(body.get_string_from_utf8())
 		# If response is 200 and JSON readable, set data
-		if response_code == 200 and json != null:
+		if json != null:
 			callback.emit(json.duplicate())
 		else:
 			print(result)
@@ -52,7 +64,7 @@ func get_server_version_data(server: ScreepsServer, callback: Signal):
 			print(body.get_string_from_utf8())
 	
 	# Send request and await method completion
-	await send_request(url, test)
+	await add_request_to_queue(url, test)
 
 func get_community_server_list(callback: Signal):
 	var url = "https://screeps.com/api/servers/list"
@@ -60,10 +72,8 @@ func get_community_server_list(callback: Signal):
 	# Test response and respond accordingly
 	var test = func(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray): 
 		var json = JSON.parse_string(body.get_string_from_utf8())
-		print("Community Server List")
 		# If response is 200 and JSON readable, set data
-		if response_code == 200 and json != null and !json.has("error"):
-			print("Got Server!")
+		if json != null and !json.has("error") and json.has("servers"):
 			var servers = json.servers
 			var server_list = []
 			for index in servers.size():
@@ -88,4 +98,4 @@ func get_community_server_list(callback: Signal):
 			print(body.get_string_from_utf8())
 	
 	# Send request and await method completion
-	await send_request(url, test, PackedStringArray(), HTTPClient.METHOD_POST)
+	await add_request_to_queue(url, test, PackedStringArray(), HTTPClient.METHOD_POST)

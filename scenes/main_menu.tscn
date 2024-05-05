@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bvvlpixdknwrv"]
+[gd_scene load_steps=7 format=3 uid="uid://bvvlpixdknwrv"]
 
 [ext_resource type="PackedScene" uid="uid://bk7vxhkbebhl4" path="res://scenes/server_section.tscn" id="1_1oi7n"]
-[ext_resource type="PackedScene" uid="uid://cv3u6287lia20" path="res://scenes/server_button.tscn" id="1_i1abj"]
 [ext_resource type="Script" path="res://scripts/CommunityServerSection.gd" id="2_6q5fv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ffc8"]
@@ -141,9 +140,3 @@ theme_override_constants/separation = 15
 [node name="Padding" type="Panel" parent="ServerSection/ServerSections/PrivateServerSection/VBoxContainer/ServerScroll/ServerList"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ls0x7")
-
-[node name="ScreepsWorldButton" parent="ServerSection/ServerSections/PrivateServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
-layout_mode = 2
-
-[node name="ScreepsSeasonButton" parent="ServerSection/ServerSections/PrivateServerSection/VBoxContainer/ServerScroll/ServerList" instance=ExtResource("1_i1abj")]
-layout_mode = 2

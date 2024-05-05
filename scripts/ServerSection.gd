@@ -12,6 +12,8 @@ func _ready():
 	generate_server_list_buttons()
 
 func generate_server_list_buttons():
+	print(section_title)
+	print(server_list)
 	for index in server_list.size():
 		var server = server_list[index]
 		var button: ServerButton = server_button.instantiate()

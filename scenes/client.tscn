@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpy00mal7b2xl"]
+
+[ext_resource type="PackedScene" uid="uid://dwtmwmy71h5ck" path="res://scenes/tile.tscn" id="1_lnooe"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_4kmwy"]
+resource_name = "Terrain"
+scenes/5/scene = ExtResource("1_lnooe")
+scenes/5/display_placeholder = ExtResource("1_lnooe")
+
+[sub_resource type="TileSet" id="TileSet_bjiq1"]
+tile_size = Vector2i(10, 10)
+sources/0 = SubResource("TileSetScenesCollectionSource_4kmwy")
+
+[node name="Client" type="Node2D"]
+
+[node name="Map" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_bjiq1")
+format = 2

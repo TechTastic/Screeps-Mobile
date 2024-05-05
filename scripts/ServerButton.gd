@@ -74,6 +74,12 @@ func set_label_hover():
 	])
 
 func _process(_delta):
+	if (server.users == -1):
+		print(server.server_name)
+		print(server.users)
+		print(server.secure)
+		ScreepsHTTP.get_server_version_data(server, server_updated)
+	
 	if (is_hovered()):
 		set_label_hover()
 	else:
@@ -82,4 +88,4 @@ func _process(_delta):
 	update_style(server.active)
 
 func _on_server_updated(json: Dictionary):
-	server.users = json.get("users", 0)
+	server.users = json.users

@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwtmwmy71h5ck"]
+
+[ext_resource type="Script" path="res://scripts/Tile.gd" id="1_4cqvv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48kk5"]
+size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u5ovr"]
+size = Vector2(10, 10)
+
+[node name="Tile" type="Node2D"]
+script = ExtResource("1_4cqvv")
+color = Color(0.244776, 0.244776, 0.244776, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_48kk5")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_u5ovr")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="TouchScreenButton" to="." method="_on_touch_screen_button_pressed"]
