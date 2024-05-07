@@ -89,11 +89,9 @@ func get_http_url(endpoint: String):
 	])
 
 func request_server_info():
-	var url = get_http_url("api/version")
-	
 	var handle_response = func(headers: PackedStringArray, body: PackedByteArray):
 		var server = read_from_server_data(JSON.parse_string(body.get_string_from_utf8()))
 		server.status = "active"
 		server_info_updated.emit(server)
 	
-	ScreepsHTTP.add_request_to_queue(url, handle_response)
+	ScreepsHTTP.add_request_to_queue(self, "api/version", handle_response)

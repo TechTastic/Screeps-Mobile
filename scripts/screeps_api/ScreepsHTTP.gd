@@ -14,40 +14,35 @@ func _process(_delta):
 		var request = request_queue.pop_front()
 		var failure = func(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 			if result != 0 or response_code < 200 or response_code >= 300:
+				print(request.server.host)
+				print(result)
+				print(response_code)
+				print(headers)
+				print(body.get_string_from_utf8())
+				
+				if result == 5:
+					request.server.secure = false
+				if response_code == 404 or result == 2:
+					return
 				request_queue.push_back(request)
 			else:
 				request.test.call(headers, body)
 		
 		http.request_completed.connect(failure)
-		http.request(request.url, request.headers, request.method, request.body)
+		http.request(request.server.get_http_url(request.path), request.headers, request.method, request.body)
 		await http.request_completed
 		http.request_completed.disconnect(failure)
 		request_queued = false
 
-func add_request_to_queue(url: String, test: Callable = func(headers: PackedStringArray, body: PackedByteArray): pass, headers: PackedStringArray = PackedStringArray(), method: HTTPClient.Method = HTTPClient.METHOD_GET, body: String = ""):
-	var request = { "url": url, "test": test, "headers": headers, "method": method, "body": body }
+func add_request_to_queue(server: ScreepsServer, path: String, test: Callable = func(headers: PackedStringArray, body: PackedByteArray): pass, headers: PackedStringArray = PackedStringArray(), method: HTTPClient.Method = HTTPClient.METHOD_GET, body: String = ""):
+	var request = { "server": server, "path": path, "test": test, "headers": headers, "method": method, "body": body }
 	if (request_queue.count(request) == 0):
 		request_queue.append(request)
 
-func get_http_url(server: ScreepsServer):
-	var url = ""
-	
-	# If secure, use HTTPS
-	if server.secure:
-		url += "https://"
-	else:
-		url += "http://"
-	url += server.host
-	# If port specified, use port
-	if server.port != "":
-		url += ":" + server.port
-	url += "/"
-	
-	return url
-
-
 func get_community_server_list(callback: Signal):
 	var url = "https://screeps.com/api/servers/list"
+	var request_server = ScreepsServer.new()
+	request_server.host = "screeps.com"
 	
 	# Test response and respond accordingly
 	var test = func(headers: PackedStringArray, body: PackedByteArray): 
@@ -67,4 +62,4 @@ func get_community_server_list(callback: Signal):
 			print(body.get_string_from_utf8())
 	
 	# Send request and await method completion
-	add_request_to_queue(url, test, PackedStringArray(), HTTPClient.METHOD_POST)
+	add_request_to_queue(request_server, "api/servers/list", test, PackedStringArray(), HTTPClient.METHOD_POST)
