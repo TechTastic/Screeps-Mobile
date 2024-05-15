@@ -9,8 +9,6 @@ func _notification(what):
 		_handle_screen_resize()
 
 func _handle_screen_resize():
-	print(DisplayServer.screen_get_orientation())
-	
 	var name = OS.get_name()
 	if name == "Android" || name == "iOS":
 		var screen_size = get_viewport_rect().size
@@ -22,14 +20,14 @@ func _handle_screen_resize():
 			safe_area_top /= screen_scale
 			safe_area_sides /= screen_scale
 		if screen_size.x > screen_size.y:
-			print("changed to landscape")
+			$Label.text = "Landscape"
 			var margin = 0
 			add_theme_constant_override("margin_top", margin)
 			add_theme_constant_override("margin_right", safe_area_sides + margin)
 			add_theme_constant_override("margin_bottom", margin)
 			add_theme_constant_override("margin_left", safe_area_sides + margin)
 		else:
-			print("changed to portrait")
+			$Label.text = "Portrait"
 			var margin = 0
 			add_theme_constant_override("margin_top", safe_area_top + margin)
 			add_theme_constant_override("margin_right", margin / 2)
