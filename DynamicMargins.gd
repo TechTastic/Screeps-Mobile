@@ -21,14 +21,14 @@ func _handle_screen_resize():
 			safe_area_sides /= screen_scale
 		if screen_size.x > screen_size.y:
 			print("changed to landscape")
-			var margin = 60
+			var margin = 0
 			add_theme_constant_override("margin_top", margin)
 			add_theme_constant_override("margin_right", safe_area_sides + margin)
 			add_theme_constant_override("margin_bottom", margin)
 			add_theme_constant_override("margin_left", safe_area_sides + margin)
 		else:
 			print("changed to portrait")
-			var margin = 60
+			var margin = 0
 			add_theme_constant_override("margin_top", safe_area_top + margin)
 			add_theme_constant_override("margin_right", margin / 2)
 			add_theme_constant_override("margin_bottom", margin)
