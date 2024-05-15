@@ -9,6 +9,8 @@ func _notification(what):
 		_handle_screen_resize()
 
 func _handle_screen_resize():
+	print(DisplayServer.screen_get_orientation())
+	
 	var name = OS.get_name()
 	if name == "Android" || name == "iOS":
 		var screen_size = get_viewport_rect().size
