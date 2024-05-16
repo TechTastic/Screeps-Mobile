@@ -33,6 +33,7 @@ func _handle_screen_resize():
 			add_theme_constant_override("margin_right", margin / 2)
 			add_theme_constant_override("margin_bottom", margin)
 			add_theme_constant_override("margin_left", margin / 2)
+		print($Label.text)
 		print(screen_size)
 		print(safe_area)
 		print(safe_area_top)
