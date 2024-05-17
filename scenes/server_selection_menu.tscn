@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dx7qh1g7sl5q2"]
+[gd_scene load_steps=2 format=3 uid="uid://dx7qh1g7sl5q2"]
 
 [ext_resource type="Script" path="res://scripts/server_selection_menu.gd" id="1_3ms27"]
-[ext_resource type="PackedScene" uid="uid://bk7vxhkbebhl4" path="res://scenes/server_section.tscn" id="2_e0srx"]
-[ext_resource type="Script" path="res://scripts/CommunityServerSection.gd" id="3_vp17r"]
-[ext_resource type="Script" path="res://scripts/CustomServerSection.gd" id="4_jgh5r"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -43,55 +40,23 @@ text = "SCREEPS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ServerSectionsContainer" type="ScrollContainer" parent="."]
+[node name="Sections" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.044
+anchor_top = 0.047
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 9.0
-offset_top = 12.48
-offset_right = -7.0
-offset_bottom = -11.0
+offset_left = 8.0
+offset_top = 4.24
+offset_right = -6.0
+offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 0
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ServerSectionsContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="HBoxContainer" type="HBoxContainer" parent="Sections"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 10
-
-[node name="LeftButton" type="Button" parent="ServerSectionsContainer/HBoxContainer"]
-custom_minimum_size = Vector2(30, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_stretch_ratio = 0.25
-text = "Previous
-"
-
-[node name="OfficialServerSection" parent="ServerSectionsContainer/HBoxContainer" instance=ExtResource("2_e0srx")]
-layout_mode = 2
-size_flags_horizontal = 3
-section_title = "Official Servers"
-is_official = true
-
-[node name="CommunityServerSection" parent="ServerSectionsContainer/HBoxContainer" instance=ExtResource("2_e0srx")]
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_vp17r")
-section_title = "Community Servers"
-
-[node name="PrivateServerSection" parent="ServerSectionsContainer/HBoxContainer" instance=ExtResource("2_e0srx")]
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("4_jgh5r")
-section_title = "Private Servers"
-
-[node name="RightButton" type="Button" parent="ServerSectionsContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_stretch_ratio = 0.25
-text = "Next"
