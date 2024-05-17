@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://dx7qh1g7sl5q2"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.302836, 0.40508, 1, 1)
+
+[node name="TitlePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.044
+offset_bottom = 0.479996
+grow_horizontal = 2
+
+[node name="Title" type="Label" parent="TitlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "SCREEPS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ServerSectionsContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.044
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.520004
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="HorizontalAligning" type="HBoxContainer" parent="ServerSectionsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
