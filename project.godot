@@ -32,6 +32,10 @@ window/handheld/orientation=6
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
