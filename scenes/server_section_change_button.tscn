@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://buhv4qfheijij"]
+
+[ext_resource type="Script" path="res://scripts/ServerSectionChangeButton.gd" id="1_svg61"]
+
+[node name="ServerSectionChangeButton" type="TextureButton"]
+anchors_preset = -1
+anchor_right = 0.037
+anchor_bottom = 1.0
+offset_right = 0.0400009
+size_flags_horizontal = 4
+size_flags_vertical = 3
+script = ExtResource("1_svg61")
