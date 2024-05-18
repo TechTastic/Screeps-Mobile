@@ -50,9 +50,25 @@ func _process(_delta):
 func _on_swipe(direction: Vector2):
 	#print(direction)
 	if direction == Vector2(-1, 0):
-		print("Swipe Left!")
+		if is_portrait():
+			print("Swipe Up!")
+		else:
+			print("Swipe Left!")
 	elif direction == Vector2(1, 0):
-		print("Swipe Right!")
+		if is_portrait():
+			print("Swipe Down!")
+		else:
+			print("Swipe Right!")
+	elif direction == Vector2(0, -1):
+		if is_portrait():
+			print("Swipe Left!")
+		else:
+			print("Swipe Up!")
+	elif direction == Vector2(0, 1):
+		if is_portrait():
+			print("Swipe Right!")
+		else:
+			print("Swipe Down!")
 
 func _on_left_swipe():
 	match selected:
