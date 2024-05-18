@@ -4,9 +4,10 @@
 
 [node name="SwipeDetector" type="Node"]
 script = ExtResource("1_jn5bv")
+MAX_DIAGONAL_SLOPE = 1.5
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.25
 one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
