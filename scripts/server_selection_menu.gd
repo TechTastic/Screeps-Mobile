@@ -48,7 +48,11 @@ func _process(_delta):
 		show_selected()
 
 func _on_swipe(direction: Vector2):
-	print(direction)
+	#print(direction)
+	if direction == Vector2(-1, 0):
+		print("Swipe Left!")
+	elif direction == Vector2(1, 0):
+		print("Swipe Right!")
 
 func _on_left_swipe():
 	match selected:
