@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 ScreepsHTTP="*res://scripts/screeps_api/ScreepsHTTP.gd"
 SwipeDetector="*res://scenes/swipe_detector.tscn"
+ScreepsAPI="*res://scripts/screeps_api/ScreepsAPI.gd"
 
 [display]
 

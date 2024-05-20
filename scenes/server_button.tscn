@@ -41,15 +41,16 @@ corner_radius_top_right = 10
 corner_radius_bottom_left = 10
 
 [node name="ServerButton" type="Button"]
+clip_contents = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -16.0
-offset_bottom = -16.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_b6who")
 theme_override_styles/hover = SubResource("StyleBoxFlat_2ou1t")
@@ -66,10 +67,10 @@ shape = SubResource("RectangleShape2D_e6x3v")
 [node name="ConnectionIndicator" type="ProgressBar" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.977
+anchor_left = 0.964
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.471924
+offset_left = -0.104004
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_fotkp")

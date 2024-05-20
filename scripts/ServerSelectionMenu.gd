@@ -15,7 +15,18 @@ var selected := Section.OFFICIAL
 
 
 func _ready():
+	official_server_section.server_list.append_array(ScreepsAPI.official_server_list)
+	official_server_section.generate_server_list_buttons()
+	
+	await ScreepsAPI.community_servers_updated
+	community_server_section.server_list.append_array(ScreepsAPI.community_server_list)
+	community_server_section.generate_server_list_buttons()
+	
+	private_server_section.server_list.append_array(ScreepsAPI.private_server_list)
+	private_server_section.generate_server_list_buttons()
+	
 	SwipeDetector.swiped.connect(_on_swipe)
+	
 	official_server_section.server_selected.connect(_on_server_selected)
 	community_server_section.server_selected.connect(_on_server_selected)
 	private_server_section.server_selected.connect(_on_server_selected)
@@ -23,7 +34,7 @@ func _ready():
 	_handle_screen_resize()
 
 
-func _notification(what):
+func _notification(what: int):
 	if what == Control.NOTIFICATION_RESIZED:
 		_handle_screen_resize()
 
@@ -52,7 +63,7 @@ func _show_selected():
 			private_server_section.show()
 
 
-func _process(_delta):
+func _process(_delta: float):
 	if _is_portrait():
 		_show_selected()
 

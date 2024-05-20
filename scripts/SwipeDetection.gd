@@ -5,10 +5,10 @@ signal swipe_canceled(start_position: Vector2)
 
 @export_range(1.0, 1.5) var MAX_DIAGONAL_SLOPE := 1.3
 
-@onready var timer = $Timer
+@onready var timer := $Timer
 var swipe_start_position: Vector2
 
-func _input(event):
+func _input(event: InputEvent):
 	if not event is InputEventScreenTouch:
 		return
 	

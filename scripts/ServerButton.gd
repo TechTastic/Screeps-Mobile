@@ -5,6 +5,9 @@ signal server_selected(server: ScreepsServer)
 
 @export var server: ScreepsServer = ScreepsServer.new()
 @export var connection_style: StyleBoxFlat = StyleBoxFlat.new()
+var hover_style: StyleBoxFlat = get_theme_stylebox("theme_override_styles/normal")
+var pressed_style: StyleBoxFlat = get_theme_stylebox("theme_override_styles/pressed")
+var focus_style: StyleBoxFlat = get_theme_stylebox("theme_override_styles/focus")
 
 func _ready():
 	set_label_normal()
@@ -21,7 +24,7 @@ func _ready():
 	
 	_scale_button_height()
 
-func _notification(what):
+func _notification(what: int):
 	if what == NOTIFICATION_RESIZED:
 		_scale_button_height()
 
@@ -69,7 +72,7 @@ func set_label_hover():
 			).call()
 	])
 
-func _process(_delta):
+func _process(_delta: float):
 	if (is_hovered()):
 		set_label_hover()
 	else:

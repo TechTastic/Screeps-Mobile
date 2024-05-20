@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbxwhexemgvib"]
+[gd_scene load_steps=3 format=3 uid="uid://cbxwhexemgvib"]
 
 [ext_resource type="Script" path="res://scripts/ServerSelectionMenu.gd" id="1_xpyn7"]
 [ext_resource type="PackedScene" uid="uid://bk7vxhkbebhl4" path="res://scenes/server_section.tscn" id="2_e0srx"]
-[ext_resource type="Script" path="res://scripts/CommunityServerSection.gd" id="3_vp17r"]
 
 [node name="ServerSelectionMenu" type="Control"]
 layout_mode = 3
@@ -69,12 +68,10 @@ theme_override_constants/separation = 10
 layout_mode = 2
 size_flags_horizontal = 3
 section_title = "Official Servers"
-is_official = true
 
 [node name="CommunityServerSection" parent="Sections/HBoxContainer" instance=ExtResource("2_e0srx")]
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("3_vp17r")
 section_title = "Community Servers"
 
 [node name="PrivateServerSection" parent="Sections/HBoxContainer" instance=ExtResource("2_e0srx")]

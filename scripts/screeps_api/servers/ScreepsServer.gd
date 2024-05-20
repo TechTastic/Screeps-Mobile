@@ -1,7 +1,7 @@
 extends Resource
 class_name ScreepsServer
 
-const http_url_format = "{0}://{1}{2}/{3}"
+const http_url_format := "{0}://{1}{2}/{3}"
 
 signal server_info_updated(server: ScreepsServer)
 
@@ -28,7 +28,7 @@ var welcome_text: String = ""
 var use_native_auth: bool = true
 var users: int = 0
 
-func to_json_string():
+func to_json_string() -> String:
 	return JSON.stringify({
 		"_id": self._id,
 		"protocol": self.protocal,
@@ -51,7 +51,7 @@ func to_json_string():
 		"users": self.users
 	})
 
-func read_from_server_list(json: Dictionary):
+func read_from_server_list(json: Dictionary) -> ScreepsServer:
 	self._id = json._id
 	self.host = json.settings.host
 	self.port = json.settings.port
@@ -63,7 +63,7 @@ func read_from_server_list(json: Dictionary):
 	
 	return self
 
-func read_from_server_data(json: Dictionary):
+func read_from_server_data(json: Dictionary) -> ScreepsServer:
 	var server_data: Dictionary = json.serverData
 	
 	self.protocal = json.protocol
@@ -80,7 +80,7 @@ func read_from_server_data(json: Dictionary):
 	
 	return self
 
-func get_http_url(endpoint: String):
+func get_http_url(endpoint: String) -> String:
 	return http_url_format.format([
 		(func(): if (self.secure): return "https" else: return "http").call(),
 		self.host,
@@ -89,22 +89,4 @@ func get_http_url(endpoint: String):
 	])
 
 func request_server_info():
-	await ScreepsHTTP.wait_before_requesting()
-	var r: AwaitableHTTPRequest.HTTPResult = await ScreepsHTTP.ahttp.async_request(get_http_url("api/version"))
-	
-	if r.success and str(r.status_code).match("2??"):
-		print(r.json)
-		var server: ScreepsServer = read_from_server_data(r.json)
-		server.status = "active"
-		server_info_updated.emit(server)
-	else:
-		await ScreepsHTTP.wait_before_requesting()
-		r = await ScreepsHTTP.ahttp.async_request(get_http_url("api/version").replace("https", "http"))
-		
-		if r.success and str(r.status_code).match("2??"):
-			print(r.json)
-			var server: ScreepsServer = read_from_server_data(r.json)
-			server.secure = false
-			server.status = "active"
-			server_info_updated.emit(server)
-	
+	ScreepsHTTP.get_server_info(self)

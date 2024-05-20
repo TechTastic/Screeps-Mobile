@@ -20,7 +20,7 @@ func _ready():
 	if server == null:
 		server_selection_menu.show()
 
-func _process(_delta):
+func _process(_delta: float):
 	if server == null:
 		return
 	
