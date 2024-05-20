@@ -1,6 +1,8 @@
 extends Button
 class_name ServerButton
 
+signal server_selected(server: ScreepsServer)
+
 @export var server: ScreepsServer = ScreepsServer.new()
 @export var connection_style: StyleBoxFlat = StyleBoxFlat.new()
 
@@ -35,12 +37,7 @@ func update_style(online: bool):
 	return connection_style
 
 func _on_pressed():
-	print(server.to_json_string())
-	print(ScreepsHTTP.get_http_url(server))
-	# Attempt to Connect
-	# Is auth'd? If not, auth
-	# Render Game
-	print("Connecting to " + server.server_name)
+	server_selected.emit(server)
 
 func get_label_format():
 	return "{0}\n{1}"

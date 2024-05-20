@@ -1,6 +1,8 @@
 extends Panel
 class_name ServerSection
 
+signal server_selected(server: ScreepsServer)
+
 var server_button: PackedScene = preload("res://scenes/server_button.tscn")
 @export var section_title = "Some Servers"
 var server_list = []
@@ -34,3 +36,4 @@ func generate_server_list_buttons():
 		var button: ServerButton = server_button.instantiate()
 		button.server = server
 		server_list_container.add_child(button)
+		button.server_selected.connect(func(server: ScreepsServer): server_selected.emit(server))

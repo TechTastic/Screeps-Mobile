@@ -1,17 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://dx7qh1g7sl5q2"]
 
-[ext_resource type="Script" path="res://scripts/server_selection_menu.gd" id="1_3ms27"]
+[ext_resource type="Script" path="res://scripts/ServerSelectionMenu.gd" id="1_xpyn7"]
 [ext_resource type="PackedScene" uid="uid://bk7vxhkbebhl4" path="res://scenes/server_section.tscn" id="2_e0srx"]
 [ext_resource type="Script" path="res://scripts/CommunityServerSection.gd" id="3_vp17r"]
 
-[node name="Main" type="Control"]
+[node name="ServerSelectionMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_3ms27")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_xpyn7")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
