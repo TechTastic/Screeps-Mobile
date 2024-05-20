@@ -59,6 +59,48 @@ func get_server_info(server: ScreepsServer):
 			server.server_info_updated.emit(server)
 
 
+func get_room_status(server: ScreepsServer, room: String):
+	# https://screeps.com/api/game/room-status?room=E1N8
+	var url: String = server.get_http_url("api/game/room-status?room=" + room)
+	
+	await wait_before_requesting()
+	var r := await ahttp.async_request(url)
+	
+	if r.success:
+		print(JSON.stringify(r.json, "    "))
+
+
+func authenticate(server: ScreepsServer, json: Dictionary):
+	#[POST] https://screeps.com/api/auth/signin
+		#post data: { email, password }
+		#response: { ok, token }
+#
+	#[POST] https://screeps.com/api/auth/steam-ticket
+		#post data: { ticket, useNativeAuth }
+#
+	#[POST] https://screeps.com/api/auth/query-token
+		#post data: { token }
+	await wait_before_requesting()
+	print(server.mods)
+	print(server.use_native_auth)
+	if json.has("signin"):
+		var r := await ahttp.async_request(server.get_http_url("api/auth/signin"), HTTPClient.METHOD_POST, ["Content-Type: application/json"], JSON.stringify(json.get("signin")))
+	
+		if r.success:
+			print(r.body)
+	elif json.has("steam"):
+		var r := await ahttp.async_request(server.get_http_url("api/auth/steam-ticket"), HTTPClient.METHOD_POST, ["Content-Type: application/json"], JSON.stringify(json.get("steam-ticket")))
+	
+		if r.success:
+			print(JSON.stringify(r.json, "    "))
+	elif json.has("token"):
+		var r := await ahttp.async_request(server.get_http_url("api/auth/query-token"), HTTPClient.METHOD_POST, ["Content-Type: application/json"], JSON.stringify(json.get("token")))
+	
+		if r.success:
+			print(JSON.stringify(r.json, "    "))
+	pass
+
+
 func wait_before_requesting():
 	while ahttp.is_requesting:
 		await ScreepsHTTP.ahttp.request_finished
