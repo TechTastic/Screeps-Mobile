@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://ncf0ct15kc2g"]
+
+[ext_resource type="Script" path="res://scenes/LoginMenu.gd" id="1_62a40"]
+[ext_resource type="PackedScene" uid="uid://b1d5hknk8j0ih" path="res://scenes/login_input.tscn" id="1_no0ar"]
+
+[node name="LoginMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_62a40")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.302836, 0.40508, 1, 1)
+
+[node name="TitlePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.044
+offset_bottom = 0.479996
+grow_horizontal = 2
+
+[node name="Title" type="Label" parent="TitlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "SCREEPS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.047
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 0.239998
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoginInput" parent="CenterContainer" instance=ExtResource("1_no0ar")]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[connection signal="login" from="CenterContainer/LoginInput" to="." method="_on_login_input_login"]
+[connection signal="register" from="CenterContainer/LoginInput" to="." method="_on_login_input_register"]
