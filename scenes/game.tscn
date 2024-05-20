@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://da7vsotyx7hs6"]
+[gd_scene load_steps=4 format=3 uid="uid://bpvshtg8dpoe0"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_eglck"]
-[ext_resource type="PackedScene" uid="uid://dx7qh1g7sl5q2" path="res://scenes/server_selection_menu.tscn" id="2_2wfdg"]
+[ext_resource type="PackedScene" uid="uid://cbxwhexemgvib" path="res://scenes/server_selection_menu.tscn" id="2_2wfdg"]
 [ext_resource type="Script" path="res://addons/MapCamera2D.gd" id="2_myp8x"]
 
 [node name="Game" type="Node2D"]

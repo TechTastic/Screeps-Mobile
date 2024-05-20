@@ -89,9 +89,22 @@ func get_http_url(endpoint: String):
 	])
 
 func request_server_info():
-	var handle_response = func(headers: PackedStringArray, body: PackedByteArray):
-		var server = read_from_server_data(JSON.parse_string(body.get_string_from_utf8()))
+	await ScreepsHTTP.wait_before_requesting()
+	var r: AwaitableHTTPRequest.HTTPResult = await ScreepsHTTP.ahttp.async_request(get_http_url("api/version"))
+	
+	if r.success and str(r.status_code).match("2??"):
+		print(r.json)
+		var server: ScreepsServer = read_from_server_data(r.json)
 		server.status = "active"
 		server_info_updated.emit(server)
+	else:
+		await ScreepsHTTP.wait_before_requesting()
+		r = await ScreepsHTTP.ahttp.async_request(get_http_url("api/version").replace("https", "http"))
+		
+		if r.success and str(r.status_code).match("2??"):
+			print(r.json)
+			var server: ScreepsServer = read_from_server_data(r.json)
+			server.secure = false
+			server.status = "active"
+			server_info_updated.emit(server)
 	
-	ScreepsHTTP.add_request_to_queue(self, "api/version", handle_response)

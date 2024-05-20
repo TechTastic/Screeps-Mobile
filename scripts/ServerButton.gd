@@ -18,6 +18,12 @@ func _ready():
 	server.server_info_updated.connect(_on_server_info_updated)
 	
 	server.request_server_info()
+	
+	_scale_button_height()
+
+func _notification(what):
+	if what == NOTIFICATION_RESIZED:
+		_scale_button_height()
 
 func set_style_on_ready():
 	connection_style.corner_radius_bottom_right = 10
@@ -72,5 +78,9 @@ func _process(_delta):
 	update_style(server.status == "active")
 
 func _on_server_info_updated(server: ScreepsServer):
+	print(JSON.stringify(JSON.parse_string(server.to_json_string()), "    "), "\n")
 	self.server = server
 	self.queue_redraw()
+
+func _scale_button_height():
+	custom_minimum_size.y = size.x / 10

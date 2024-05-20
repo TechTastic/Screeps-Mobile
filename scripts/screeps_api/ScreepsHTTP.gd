@@ -3,10 +3,14 @@ extends Node
 var http = HTTPRequest.new()
 var request_queue = []
 var request_queued = false
+var ahttp: AwaitableHTTPRequest = AwaitableHTTPRequest.new()
 
 func _ready():
 	add_child(http)
 	http.use_threads = true
+	
+	add_child(ahttp)
+	ahttp.timeout = 5.0
 
 func _process(_delta):
 	if request_queue.size() > 0 and !request_queued:
@@ -41,25 +45,55 @@ func add_request_to_queue(server: ScreepsServer, path: String, test: Callable = 
 
 func get_community_server_list(callback: Signal):
 	var url = "https://screeps.com/api/servers/list"
-	var request_server = ScreepsServer.new()
-	request_server.host = "screeps.com"
 	
-	# Test response and respond accordingly
-	var test = func(headers: PackedStringArray, body: PackedByteArray): 
-		var json = JSON.parse_string(body.get_string_from_utf8())
-		# If response is 200 and JSON readable, set data
+	await wait_before_requesting()
+	
+	var r := await ahttp.async_request(url, HTTPClient.METHOD_POST)
+	
+	if r.success:
+		var json = r.json
 		if json != null and !json.has("error") and json.has("servers"):
-			var servers = json.servers
-			var server_list = []
-			for index in servers.size():
-				var server = ScreepsServer.new()
-				server.read_from_server_list(servers[index])
+			var server_list: Array[ScreepsServer] = []
+			for json_server in json.servers:
+				var server := ScreepsServer.new()
+				server.read_from_server_list(json_server)
 				server_list.push_back(server)
 			callback.emit(server_list)
 		else:
 			print("Failed to get servers for Community Server List!")
-			print(headers)
-			print(body.get_string_from_utf8())
+			print(r.headers)
+			print(r.body)
+
+
+func get_server_info(server: ScreepsServer):
+	var url = server.get_http_url("api/version")
 	
-	# Send request and await method completion
-	add_request_to_queue(request_server, "api/servers/list", test, PackedStringArray(), HTTPClient.METHOD_POST)
+	await wait_before_requesting()
+	var r := await ahttp.async_request(url)
+	
+	if r.success and str(r.status_code).match("2??"):
+		print(r.json)
+		var new_server: ScreepsServer = server.read_from_server_data(r.json)
+		new_server.status = "active"
+		server.server_info_updated.emit(new_server)
+	elif r._result == HTTPRequest.RESULT_TLS_HANDSHAKE_ERROR:
+		await wait_before_requesting()
+		r = await ahttp.async_request(url.replace("https", "http"))
+		
+		if r.success and str(r.status_code).match("2??"):
+			print(r.json)
+			var new_server: ScreepsServer = server.read_from_server_data(r.json)
+			new_server.secure = false
+			new_server.status = "active"
+			server.server_info_updated.emit(new_server)
+		else:
+			server.status = "inactive"
+			server.server_info_updated.emit(server)
+	else:
+			server.status = "inactive"
+			server.server_info_updated.emit(server)
+
+
+func wait_before_requesting():
+	while ahttp.is_requesting:
+		await ScreepsHTTP.ahttp.request_finished

@@ -31,9 +31,8 @@ func generate_server_list_buttons():
 	if is_official:
 		server_list.append_array(get_official_servers())
 	
-	for index in server_list.size():
-		var server: ScreepsServer = server_list[index]
+	for server in server_list:
 		var button: ServerButton = server_button.instantiate()
-		button.server = server
+		button._on_server_info_updated(server)
 		server_list_container.add_child(button)
 		button.server_selected.connect(func(server: ScreepsServer): server_selected.emit(server))
