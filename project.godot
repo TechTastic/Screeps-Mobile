@@ -11,15 +11,12 @@ config_version=5
 [application]
 
 config/name="Screeps Mobile"
-run/main_scene="res://scenes/server_selection_menu.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-ScreepsHTTP="*res://scripts/screeps_api/ScreepsHTTP.gd"
 SwipeDetector="*res://scenes/swipe_detector.tscn"
-ScreepsAPI="*res://scripts/screeps_api/ScreepsAPI.gd"
 
 [display]
 
